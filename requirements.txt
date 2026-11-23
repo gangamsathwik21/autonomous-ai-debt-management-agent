@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+streamlit
+requests
+pandas
+pydantic
+langgraph
+langchain
+langchain-core
+langchain-ollama
+ollama
+sqlalchemy
+python-dotenv

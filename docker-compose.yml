@@ -1,0 +1,26 @@
+services:
+  backend:
+    build: .
+    container_name: debt_backend
+    command: uvicorn backend.api:app --host 0.0.0.0 --port 8001
+    ports:
+      - "8001:8001"
+    environment:
+      DEBT_API_KEY: ${DEBT_API_KEY}
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+    volumes:
+      - ./data:/app/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build: .
+    container_name: debt_frontend
+    command: streamlit run frontend/app.py --server.address 0.0.0.0 --server.port 8501
+    ports:
+      - "8501:8501"
+    environment:
+      DEBT_API_KEY: ${DEBT_API_KEY}
+      API_URL: http://backend:8001
+    depends_on:
+      - backend
